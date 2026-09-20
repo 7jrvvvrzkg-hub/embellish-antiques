@@ -9,12 +9,22 @@ import { formatPrice } from "@/lib/format";
 export function CartDrawer() {
   const { items, isOpen, close, setQuantity, removeItem, totalCents } = useCart();
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-ink/40" onClick={close} />
-      <div className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-cream shadow-soft">
+    <div
+      className={`fixed inset-0 z-50 ${isOpen ? "" : "pointer-events-none"}`}
+      aria-hidden={!isOpen}
+    >
+      <div
+        className={`absolute inset-0 bg-ink/40 transition-opacity duration-300 ${
+          isOpen ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={close}
+      />
+      <div
+        className={`absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-cream shadow-soft transition-transform duration-300 ease-out ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <h2 className="flex items-center gap-2 font-display text-xl">
             <ShoppingBag className="h-5 w-5" /> Your bag

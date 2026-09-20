@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 // Self-hosted via npm (@fontsource-variable) rather than next/font/google —
 // no runtime dependency on Google's font CDN (nice for privacy/consistency,
 // and means the build never depends on reaching fonts.googleapis.com).
@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   },
   description:
     "Hand-selected antiques and vintage pieces — barware, lighting, case goods, seating and more — shipped nationwide and worldwide from Durham, NC.",
+};
+
+// Explicit, not just the framework default — without this, a page with any
+// wide content (like the admin item rows) can make mobile browsers render
+// the whole page zoomed out to fit it, instead of at 100% with that one
+// element scrolling internally.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 // Deliberately minimal: html/body/fonts/metadata only. The customer shop

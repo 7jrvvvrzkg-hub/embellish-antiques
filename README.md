@@ -14,16 +14,22 @@ in real Stripe/Supabase/Resend accounts (see **Going live** below).
 - Full storefront: hero, category shop pages, New Arrivals, Sold Archive,
   product pages with a size-reference tool and "notify me of similar"
   waitlist, cart, Stripe Checkout
-- Depop-style animated search bar, top bar nav with mobile dropdown
-- Likes + a live "most-loved this week" badge, hover quick-view with a
-  first-image preview, add-to-bag "shower" animation
-- The animated music-staff divider (click to play/pause)
+- Depop-style animated search bar, a click-to-open Shop dropdown (not
+  hover), and an always-visible contact bar up top with phone/appointment
+  info
+- Likes with a dedicated `/likes` page (persisted in localStorage), a live
+  "most-loved this week" badge, hover quick-view with a first-image
+  preview, add-to-bag "shower" animation, and a smooth slide-in cart drawer
+- The animated music-staff divider — a rotated staff with a shimmying
+  treble clef; click it to start a real looping MP3 track with notes that
+  carousel down the (sideways) staff line, click again (or reload) to stop
 - A playable, pixel-art Space Invaders game on the 404 page (keyboard +
   touch controls)
-- Owner-only admin panel: dashboard, item CRUD with drag-to-reorder image
-  upload, analytics (top categories/items, likes, views), and a newsletter
-  composer that generates email-safe HTML and sends to subscribers with a
-  working unsubscribe link
+- Owner-only admin panel: dashboard, item CRUD (including image upload/
+  reorder that works right away in demo mode) with larger touch targets on
+  mobile, analytics (a category-share donut chart plus top categories/
+  items, likes, views), and a newsletter composer that generates
+  email-safe HTML and sends to subscribers with a working unsubscribe link
 - Cart-abandonment emails via a Stripe webhook
 - All of the current embellishantiques.com catalog (names/prices/categories)
   ported into `src/lib/data/ported-listings.ts`
@@ -38,17 +44,19 @@ in real Stripe/Supabase/Resend accounts (see **Going live** below).
 - **Long-form descriptions, era/materials/dimensions/condition** — the
   ported listings have placeholder description text (clearly marked in the
   code) standing in for his real copy.
-- **Logo.** `src/components/logo.tsx` is a placeholder mark — ask his
-  preferences (initials vs. full name, any motif, color constraints) and
-  swap just that one file; the favicon, admin header, and email templates
-  all pull from it automatically.
+- **Logo.** `src/components/logo.tsx` is a plain circle placeholder — swap
+  it for the real mark once he has one; the favicon, admin header, and
+  email templates all pull from it automatically.
 - **About page copy, shipping/returns policy text** — both pages are
   clearly marked as placeholder in their source.
-- **The Iongaf-style background track** for the music divider — right now
-  it generates a soft ambient tone in the browser (Web Audio API, no file
-  needed). Once you have the real track, drop it in `/public/music/` and
-  swap the `startPlaceholderTone`/`stopPlaceholderTone` calls in
-  `src/components/music-staff-divider.tsx` for a plain `<audio>` element.
+- **Music divider note timing.** The track in `/public/music/track.mp3`
+  plays with a fixed, best-guess note carousel (`NOTES` array in
+  `src/components/music-staff-divider.tsx`). Once you generate precise cue
+  points from a music-note generator, swap that array's `left`/`duration`/
+  `delay` values to match the track exactly. `/public/music/note.png` and
+  `clef.png` are already cropped/transparent — add more note variants the
+  same way (chroma-key to transparent, auto-crop) if you want more than
+  one note shape repeating.
 
 ## Tech stack
 
@@ -115,5 +123,9 @@ npm run dev
 
 Owner admin panel in demo mode (no Supabase yet): visit `/admin/login`,
 password is `ADMIN_DEMO_PASSWORD` from `.env.local` (default
-`embellish-demo`) — change it. Demo mode lets you click through every admin
-screen, but writes won't persist until Supabase is connected.
+`embellish-demo`) — change it. Demo mode is a real working preview, not
+read-only: adding/editing/deleting items, uploading photos, reordering
+images, likes, and analytics all actually work and persist while the
+server stays warm (see the comment atop `src/lib/data/demo-store.ts` for
+exactly what that does and doesn't survive — a redeploy or cold start
+resets it). Connect Supabase for changes that stick permanently.

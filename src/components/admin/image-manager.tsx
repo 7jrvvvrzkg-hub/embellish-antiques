@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { GripVertical, Star, Trash2, Upload } from "lucide-react";
 import { uploadProductImage, deleteProductImage, reorderProductImages } from "@/lib/data/admin-actions";
@@ -11,11 +12,19 @@ import type { ProductImage } from "@/lib/types";
  * photo everywhere on the site (grid cards, quick view, product page hero).
  */
 export function ImageManager({ productId, images }: { productId: string; images: ProductImage[] }) {
+  const router = useRouter();
   const [items, setItems] = useState(images);
   const [pending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
   const dragIndex = useRef<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // The server component that renders this passes fresh `images` after a
+  // router.refresh() (post-upload) or a navigation — sync local state so
+  // a new upload shows up immediately instead of needing a manual reload.
+  useEffect(() => {
+    setItems(images);
+  }, [images]);
 
   function persistOrder(next: ProductImage[]) {
     setItems(next);
@@ -57,7 +66,12 @@ export function ImageManager({ productId, images }: { productId: string; images:
     formData.set("file", file);
     startTransition(async () => {
       const result = await uploadProductImage(productId, formData);
-      setMessage(result.ok ? "Uploaded — refresh to see it in the grid." : result.message ?? null);
+      if (result.ok) {
+        setMessage("Uploaded.");
+        router.refresh();
+      } else {
+        setMessage(result.message ?? null);
+      }
       if (fileInputRef.current) fileInputRef.current.value = "";
     });
   }

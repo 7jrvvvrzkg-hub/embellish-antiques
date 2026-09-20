@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { CATEGORY_LIST } from "@/lib/categories";
 
@@ -28,8 +28,8 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-24 border-t border-line bg-forest text-cream">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
-        <div>
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-5 lg:px-8">
+        <div className="lg:col-span-2">
           <Logo className="text-cream" />
           <p className="mt-4 max-w-xs text-sm text-cream/70">
             One-of-a-kind antiques and vintage pieces, sourced and shipped from our
@@ -69,43 +69,77 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cream/60">Info</p>
-          <ul className="mt-4 space-y-2 text-sm">
+          <p className="text-xs font-semibold uppercase tracking-widest text-cream/60">Visit us</p>
+          <ul className="mt-4 space-y-2.5 text-sm text-cream/80">
+            <li className="flex items-start gap-2">
+              <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold-soft" /> Durham, NC — by appointment
+            </li>
+            <li>Ships nationwide &amp; worldwide</li>
+          </ul>
+          <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-cream/60">Info</p>
+          <ul className="mt-3 space-y-2 text-sm">
             <li><Link href="/about" className="text-cream/80 transition hover:text-pop">About</Link></li>
             <li><Link href="/sold-archive" className="text-cream/80 transition hover:text-pop">Sold Archive</Link></li>
             <li><Link href="/shipping-returns" className="text-cream/80 transition hover:text-pop">Shipping &amp; Returns</Link></li>
-            <li><Link href="/contact" className="text-cream/80 transition hover:text-pop">Contact</Link></li>
           </ul>
         </div>
 
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-cream/60">
-            Join the list
-          </p>
-          <p className="mt-4 text-sm text-cream/70">
-            New arrivals and one-of-a-kind finds, straight to your inbox.
-          </p>
-          {status === "done" ? (
-            <p className="mt-3 text-sm text-gold-soft">You&apos;re on the list — thank you!</p>
-          ) : (
-            <form onSubmit={handleSubscribe} className="mt-3 flex gap-2">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@email.com"
-                className="w-full rounded-full border border-cream/30 bg-transparent px-4 py-2 text-sm placeholder:text-cream/40 outline-none focus:border-pop"
-              />
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="shrink-0 rounded-full bg-pop px-4 py-2 text-sm font-semibold text-cream transition hover:bg-pop-dark disabled:opacity-60"
+          <p className="text-xs font-semibold uppercase tracking-widest text-cream/60">Get in touch</p>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li>
+              <a href="tel:+19199718743" className="flex items-center gap-2 text-cream/80 transition hover:text-pop">
+                <Phone className="h-3.5 w-3.5 shrink-0 text-gold-soft" /> (919) 971-8743
+              </a>
+            </li>
+            <li>
+              <a
+                href="mailto:hello@embellishantiques.com"
+                className="flex items-center gap-2 text-cream/80 transition hover:text-pop"
               >
-                Join
-              </button>
-            </form>
-          )}
+                <Mail className="h-3.5 w-3.5 shrink-0 text-gold-soft" /> hello@embellishantiques.com
+              </a>
+            </li>
+            <li>
+              <Link href="/contact" className="text-cream/80 transition hover:text-pop">
+                Send a message →
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-cream/10">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-start justify-between gap-4 rounded-3xl border border-cream/15 bg-cream/5 px-6 py-6 sm:flex-row sm:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-cream/60">Join the list</p>
+              <p className="mt-1 text-sm text-cream/70">
+                New arrivals and one-of-a-kind finds, straight to your inbox.
+              </p>
+            </div>
+            {status === "done" ? (
+              <p className="text-sm text-gold-soft">You&apos;re on the list — thank you!</p>
+            ) : (
+              <form onSubmit={handleSubscribe} className="flex w-full max-w-sm gap-2">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@email.com"
+                  className="w-full rounded-full border border-cream/30 bg-transparent px-4 py-2 text-sm placeholder:text-cream/40 outline-none focus:border-pop"
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="shrink-0 rounded-full bg-pop px-4 py-2 text-sm font-semibold text-cream transition hover:bg-pop-dark disabled:opacity-60"
+                >
+                  Join
+                </button>
+              </form>
+            )}
+          </div>
           {status === "error" && (
             <p className="mt-2 text-xs text-cream/60">Something went wrong — try again in a moment.</p>
           )}

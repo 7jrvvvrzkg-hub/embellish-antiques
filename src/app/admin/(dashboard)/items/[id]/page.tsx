@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 import { ItemForm } from "@/components/admin/item-form";
 import { ImageManager } from "@/components/admin/image-manager";
-import { getAllProducts } from "@/lib/data/products";
+import { getAllProductsForAdmin } from "@/lib/data/products";
 
 export const metadata = { title: "Edit Item" };
 
 export default async function EditItemPage({ params }: PageProps<"/admin/items/[id]">) {
   const { id } = await params;
-  const products = await getAllProducts();
+  const products = await getAllProductsForAdmin();
   const product = products.find((p) => p.id === id);
   if (!product) notFound();
 

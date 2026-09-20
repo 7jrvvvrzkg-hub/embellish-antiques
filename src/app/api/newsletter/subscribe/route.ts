@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured } from "@/lib/supabase/is-configured";
 import { createServiceClient } from "@/lib/supabase/server";
+import { demoAddSubscriber } from "@/lib/data/demo-store";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -15,8 +16,11 @@ export async function POST(request: Request) {
   }
 
   if (!isSupabaseConfigured()) {
-    // Demo mode: acknowledge success so the UI reads correctly, but nothing
-    // is persisted until a real Supabase project is connected.
+    // Demo mode: keep the email in the in-memory demo store (so the admin
+    // analytics "Newsletter subscribers" count reflects real signups during
+    // this preview session) — actually emailing them still needs Resend +
+    // Supabase, since sending real email requires a real provider.
+    demoAddSubscriber(email);
     return NextResponse.json({ ok: true, persisted: false });
   }
 

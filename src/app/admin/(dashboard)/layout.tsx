@@ -31,14 +31,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link
               key={href}
               href={href}
-              className="flex shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-ink transition hover:bg-cream-soft"
+              className="flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-medium text-ink transition hover:bg-cream-soft active:bg-cream-soft"
             >
-              <Icon className="h-4 w-4" /> {label}
+              <Icon className="h-4 w-4 shrink-0" /> {label}
             </Link>
           ))}
           <form action={logoutAction}>
-            <button className="mt-2 flex w-full shrink-0 items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-ink-soft transition hover:bg-cream-soft">
-              <LogOut className="h-4 w-4" /> Log out
+            <button className="mt-2 flex min-h-11 w-full shrink-0 items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-medium text-ink-soft transition hover:bg-cream-soft active:bg-cream-soft">
+              <LogOut className="h-4 w-4 shrink-0" /> Log out
             </button>
           </form>
         </nav>

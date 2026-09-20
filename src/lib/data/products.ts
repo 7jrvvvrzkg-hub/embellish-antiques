@@ -1,19 +1,21 @@
 import "server-only";
 
 import type { Category, Product } from "@/lib/types";
-import { portedProducts } from "@/lib/data/ported-listings";
 import { isSupabaseConfigured } from "@/lib/supabase/is-configured";
 import { createServiceClient } from "@/lib/supabase/server";
 import { CATEGORIES } from "@/lib/categories";
+import { demoListAll } from "@/lib/data/demo-store";
 
 export { CATEGORIES };
 
 // ── Mock/demo data source ───────────────────────────────────────────────
 // Used whenever Supabase isn't configured yet, so the whole site is
 // click-through-able (shop, product pages, cart, admin) with real ported
-// catalog data before a single real credential exists.
+// catalog data before a single real credential exists — reads from the
+// in-memory demo store (src/lib/data/demo-store.ts) so admin edits/uploads
+// actually show up here instead of the static ported list never changing.
 async function fromMock(): Promise<Product[]> {
-  return portedProducts;
+  return demoListAll();
 }
 
 type ProductRow = {
@@ -80,6 +82,13 @@ async function getAll(): Promise<Product[]> {
 export async function getAllProducts(): Promise<Product[]> {
   const all = await getAll();
   return all.filter((p) => p.status !== "draft");
+}
+
+// Unlike getAllProducts(), this includes drafts — the admin item list and
+// edit pages need to see (and be able to re-publish) drafts, unlike the
+// customer-facing shop.
+export async function getAllProductsForAdmin(): Promise<Product[]> {
+  return getAll();
 }
 
 export async function getProductsByCategory(category: Category): Promise<Product[]> {

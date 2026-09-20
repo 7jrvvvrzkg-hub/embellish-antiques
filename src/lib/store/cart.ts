@@ -54,6 +54,13 @@ export const useCart = create<CartState>()(
       totalCents: () => get().items.reduce((sum, i) => sum + i.priceCents * i.quantity, 0),
       totalCount: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
     }),
-    { name: "embellish-cart" }
+    {
+      name: "embellish-cart",
+      // Only the bag's contents should survive a reload — not whether the
+      // drawer happened to be open, or which item was most recently added.
+      // Without this, closing the tab mid-checkout with the drawer open
+      // would leave it popped open on every future visit until closed again.
+      partialize: (state) => ({ items: state.items }),
+    }
   )
 );

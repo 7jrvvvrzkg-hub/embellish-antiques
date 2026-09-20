@@ -21,14 +21,14 @@ export function StatusButtons({ product }: { product: Product }) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-1.5 text-xs">
+    <div className="flex flex-wrap items-center gap-2 text-xs">
       {(["available", "sold", "draft"] as const).map((s) => (
         <button
           key={s}
           disabled={pending}
           onClick={() => setStatus(s)}
-          className={`rounded-full px-2.5 py-1 font-medium capitalize transition ${
-            product.status === s ? "bg-forest text-cream" : "bg-cream-soft text-ink-soft hover:bg-line"
+          className={`min-h-9 rounded-full px-3.5 py-2 font-medium capitalize transition ${
+            product.status === s ? "bg-forest text-cream" : "bg-cream-soft text-ink-soft hover:bg-line active:bg-line"
           }`}
         >
           {s}
@@ -37,7 +37,7 @@ export function StatusButtons({ product }: { product: Product }) {
       <button
         disabled={pending}
         onClick={handleDelete}
-        className="ml-1 rounded-full px-2.5 py-1 font-medium text-pop-dark hover:bg-pop/10"
+        className="min-h-9 rounded-full px-3.5 py-2 font-medium text-pop-dark hover:bg-pop/10 active:bg-pop/10"
       >
         Delete
       </button>

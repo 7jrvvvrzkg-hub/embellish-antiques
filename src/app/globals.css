@@ -107,3 +107,21 @@ h1, h2, h3, h4, .font-display {
   50%, 95% { opacity: 0; }
   100% { opacity: 1; }
 }
+
+/* Music divider: a gentle periodic wiggle on the treble clef, inviting a
+   click before the music has been started. */
+@keyframes clef-shimmy {
+  0%, 82%, 100% { transform: rotate(90deg) scale(1); }
+  88% { transform: rotate(97deg) scale(1.1); }
+  94% { transform: rotate(83deg) scale(1.1); }
+}
+
+/* Music divider: notes travelling down the rotated staff line in a loop,
+   fading in near the top and out near the bottom. `top` is percentage-based
+   against the divider's own height, so it works at any divider length. */
+@keyframes note-carousel {
+  0% { top: -10%; opacity: 0; }
+  8% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { top: 106%; opacity: 0; }
+}

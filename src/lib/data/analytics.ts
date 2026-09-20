@@ -3,12 +3,14 @@ import "server-only";
 import { isSupabaseConfigured } from "@/lib/supabase/is-configured";
 import { createServiceClient } from "@/lib/supabase/server";
 import { getAllProducts } from "@/lib/data/products";
+import { demoTopCategories, demoSubscriberCount } from "@/lib/data/demo-store";
 import type { AnalyticsSummary } from "@/lib/types";
 
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
   const products = await getAllProducts();
 
   const topProducts = [...products]
+    .filter((p) => p.clickCount + p.likeCount > 0)
     .sort((a, b) => b.clickCount + b.likeCount - (a.clickCount + a.likeCount))
     .slice(0, 8)
     .map((p) => ({ productId: p.id, name: p.name, clicks: p.clickCount, likes: p.likeCount }));
@@ -18,6 +20,15 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
 
   let topCategories: AnalyticsSummary["topCategories"] = [];
   let totalSubscribers = 0;
+
+  if (!isSupabaseConfigured()) {
+    // Demo mode: pull from the same in-memory store that
+    // /api/analytics/track and /api/newsletter/subscribe write to, so this
+    // page reflects real browsing during the current preview session
+    // instead of sitting empty until Supabase is connected.
+    topCategories = demoTopCategories(8);
+    totalSubscribers = demoSubscriberCount();
+  }
 
   if (isSupabaseConfigured()) {
     const supabase = createServiceClient();

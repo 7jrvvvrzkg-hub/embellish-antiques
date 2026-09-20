@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isSupabaseConfigured } from "@/lib/supabase/is-configured";
 import { createServiceClient } from "@/lib/supabase/server";
+import { demoTrackEvent } from "@/lib/data/demo-store";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as {
@@ -10,6 +11,11 @@ export async function POST(request: Request) {
   };
 
   if (!isSupabaseConfigured()) {
+    // Demo mode: no Postgres to log to, so events feed the in-memory demo
+    // store instead — the admin analytics page reads from the same place,
+    // so "most-viewed categories" and per-item clicks/likes fill in for
+    // real during this preview session.
+    demoTrackEvent(body.eventType, { category: body.category, productId: body.productId });
     return NextResponse.json({ ok: true, persisted: false });
   }
 
