@@ -17,15 +17,17 @@ export default async function HomePage() {
   return (
     <div className="relative">
       {/* Runs the full height of the page — from the top of the hero down
-          to the bottom of the last section — not just one section. It's an
-          overlay so it doesn't fight the full-bleed section backgrounds
-          below; only shown once there's real margin outside the centered
-          7xl content to sit in, so it never crosses over the page copy. */}
-      <MusicStaffDivider className="absolute inset-y-0 left-[calc(50%-50rem)] z-10 hidden min-[1600px]:flex" />
+          to the bottom of the last section, not just one section. It's an
+          overlay (not part of the normal flow) so the full-bleed section
+          backgrounds below stay full-bleed; every section reserves the
+          matching strip of left padding below (see the sm:pl-44 pattern)
+          so nothing ever sits under it. Visible from `sm` up, same as the
+          rest of the page's responsive breakpoints. */}
+      <MusicStaffDivider className="absolute inset-y-0 left-4 z-10 hidden sm:flex" />
 
       <Hero />
 
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:pl-44 sm:pr-6 lg:pl-44 lg:pr-8">
         <div className="min-w-0 flex-1">
           <HomeGridSection
             title="New Arrivals"
@@ -46,7 +48,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:pl-44 sm:pr-6 lg:pl-44 lg:pr-8">
         <h2 className="mb-6 font-display text-2xl">Shop by category</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {CATEGORIES.map((c) => (
@@ -62,7 +64,7 @@ export default async function HomePage() {
       </section>
 
       <section className="bg-cream-soft py-16">
-        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:pl-44 sm:pr-6 md:grid-cols-2 lg:pl-44 lg:pr-8">
           <div>
             <h2 className="font-display text-3xl italic">A little about us</h2>
             <p className="mt-4 max-w-md text-ink-soft">

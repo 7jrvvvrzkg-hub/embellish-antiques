@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useMusicStore } from "@/lib/store/music";
 
 // The Iongaf-style divider, rebuilt around the owner's own assets: the
 // actual "bar" graphic (a thick, real staff-line asset) tiled the full
@@ -16,17 +16,21 @@ import Image from "next/image";
 // Blank by default: no notes, nothing moving, just the staff line and a
 // clef that gives a small periodic "shimmy" to hint it's clickable. Click
 // it — notes start moving down the line and the track plays on repeat
-// until it's clicked again or the page reloads. Click again to stop.
-// There's no hover tooltip on the icon — the shimmy vs. the static rotated
-// clef is the only affordance, on purpose.
+// until it's clicked again (from the home page — that's the only place
+// this button lives) or the page is fully reloaded. The play/pause state
+// itself lives in useMusicStore (see src/lib/store/music.ts), not in this
+// component, specifically so navigating to another page — which unmounts
+// this component, since it's only rendered on the home page — doesn't stop
+// the track. There's no hover tooltip on the icon — the shimmy vs. the
+// static rotated clef is the only affordance, on purpose.
 //
 // Note timing is an approximation, not a real beat-match — matching notes
 // to a track exactly needs audio analysis this app doesn't do. If you send
 // timestamps/cue points for the track, those can drive this precisely.
 const NOTE_ASSETS = ["/music/note.png", "/music/note2.png"];
-// The divider now spans the full page height (not just one section), so
-// the belt is much longer — a slower duration keeps the notes gliding
-// instead of rocketing down the line.
+// The divider spans the full page height (not just one section), so the
+// belt is long — a slower duration keeps the notes gliding instead of
+// rocketing down the line.
 const CONVEYOR_DURATION = 16;
 const NOTE_COUNT = 8;
 const NOTES = Array.from({ length: NOTE_COUNT }, (_, i) => ({
@@ -42,35 +46,11 @@ const NOTES = Array.from({ length: NOTE_COUNT }, (_, i) => ({
 }));
 
 export function MusicStaffDivider({ className = "" }: { className?: string }) {
-  const [playing, setPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    return () => {
-      audioRef.current?.pause();
-    };
-  }, []);
-
-  function toggle() {
-    if (playing) {
-      audioRef.current?.pause();
-      setPlaying(false);
-      return;
-    }
-    if (!audioRef.current) {
-      audioRef.current = new Audio("/music/track.mp3");
-      audioRef.current.loop = true;
-    }
-    audioRef.current.play().catch(() => {
-      // Autoplay-with-sound can be blocked before any user gesture has
-      // landed elsewhere on the page — the click that got us here counts,
-      // so this mainly guards odd browser edge cases.
-    });
-    setPlaying(true);
-  }
+  const playing = useMusicStore((s) => s.playing);
+  const toggle = useMusicStore((s) => s.toggle);
 
   return (
-    <div className={`flex w-32 flex-col items-center ${className}`}>
+    <div className={`flex w-36 flex-col items-center ${className}`}>
       {/* The actual bar asset, tiled the full height of the divider —
           starts at the very top so the clef button sits right on it,
           rather than floating above a gap. Sized up so it reads as a
@@ -78,7 +58,7 @@ export function MusicStaffDivider({ className = "" }: { className?: string }) {
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 bottom-0 z-0 bg-center bg-repeat-y"
-        style={{ backgroundImage: "url(/music/bar.png)", backgroundSize: "72px auto" }}
+        style={{ backgroundImage: "url(/music/bar.png)", backgroundSize: "96px auto" }}
       />
 
       <button
@@ -86,14 +66,14 @@ export function MusicStaffDivider({ className = "" }: { className?: string }) {
         onClick={toggle}
         aria-pressed={playing}
         aria-label={playing ? "Pause background music" : "Play background music"}
-        className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full outline-none transition hover:scale-105 active:scale-95"
+        className="relative z-10 flex h-20 w-20 shrink-0 items-center justify-center rounded-full outline-none transition hover:scale-105 active:scale-95"
       >
         <Image
           src="/music/clef.png"
           alt=""
-          width={90}
-          height={90}
-          className={`h-14 w-14 object-contain drop-shadow-md ${!playing ? "animate-[clef-shimmy_4s_ease-in-out_infinite]" : "rotate-90"}`}
+          width={110}
+          height={110}
+          className={`h-16 w-16 object-contain drop-shadow-md ${!playing ? "animate-[clef-shimmy_4s_ease-in-out_infinite]" : "rotate-90"}`}
         />
       </button>
 
@@ -107,7 +87,7 @@ export function MusicStaffDivider({ className = "" }: { className?: string }) {
           NOTES.map((note, i) => (
             <span
               key={i}
-              className="absolute h-9 w-9 -translate-x-1/2"
+              className="absolute h-11 w-11 -translate-x-1/2"
               style={{
                 left: `${note.left}%`,
                 animation: `note-carousel ${CONVEYOR_DURATION}s linear ${note.delay}s infinite`,
