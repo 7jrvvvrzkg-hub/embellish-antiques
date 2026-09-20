@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/*
+  Embellish Antiques design tokens.
+  Palette: warm cream ground + antique-gold detailing, with one "popped"
+  terracotta accent for CTAs/hover states (the Depop-esque energy the brief
+  asked for) and a deep forest ink for contrast. Rounded, soft-shadow UI
+  throughout — see --radius-* tokens below.
+*/
+
+:root {
+  --color-cream: #faf5ec;
+  --color-cream-soft: #f2e9d8;
+  --color-ink: #241a12;
+  --color-ink-soft: #4a3c2f;
+  --color-pop: #e2551f;
+  --color-pop-dark: #b8410f;
+  --color-forest: #2f4a3c;
+  --color-forest-dark: #203327;
+  --color-gold: #c69a3a;
+  --color-gold-soft: #e8d3a0;
+  --color-cloud: #ffffff;
+  --color-line: #e5d9c3;
+
+  --radius-sm: 0.6rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2.25rem;
+
+  --shadow-soft: 0 8px 30px -12px rgba(36, 26, 18, 0.25);
+  --shadow-pop: 0 10px 28px -8px rgba(226, 85, 31, 0.45);
+}
+
+@theme inline {
+  --color-cream: var(--color-cream);
+  --color-cream-soft: var(--color-cream-soft);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-pop: var(--color-pop);
+  --color-pop-dark: var(--color-pop-dark);
+  --color-forest: var(--color-forest);
+  --color-forest-dark: var(--color-forest-dark);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-cloud: var(--color-cloud);
+  --color-line: var(--color-line);
+
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: var(--color-pop);
+  color: var(--color-cream);
+}
+
+/* Thin, antique-gold scrollbar accent (Webkit only — degrades gracefully) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream-soft);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-soft);
+  border-radius: 999px;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1.5deg); }
+}
+
+@keyframes shower-fall {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--drift, 0px), 60px) scale(0.4) rotate(25deg); opacity: 0; }
+}
+
+@keyframes staff-note-draw {
+  from { stroke-dashoffset: 240; opacity: 0; }
+  10% { opacity: 1; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
