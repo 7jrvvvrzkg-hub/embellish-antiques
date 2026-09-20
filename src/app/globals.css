@@ -21,6 +21,9 @@
   --color-gold-soft: #e8d3a0;
   --color-cloud: #ffffff;
   --color-line: #e5d9c3;
+  /* Music divider: bland/muted resting color for the staff + bar lines when
+     nothing's playing — the vibrant --color-pop takes over once it's on. */
+  --color-staff-idle: #968a7a;
 
   --radius-sm: 0.6rem;
   --radius-md: 1rem;
@@ -44,6 +47,7 @@
   --color-gold-soft: var(--color-gold-soft);
   --color-cloud: var(--color-cloud);
   --color-line: var(--color-line);
+  --color-staff-idle: var(--color-staff-idle);
 
   --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
@@ -124,4 +128,22 @@ h1, h2, h3, h4, .font-display {
   8% { opacity: 1; }
   88% { opacity: 1; }
   100% { top: 106%; opacity: 0; }
+}
+
+/* Music divider: while playing, the bar lines drift downward along the
+   staff — one full drift covers exactly one bar-line interval so the
+   repeating pattern loops with no visible seam. Idle, this isn't applied
+   at all, so the bar lines just sit still. */
+@keyframes staff-scroll {
+  from { background-position-y: 0; }
+  to { background-position-y: 360px; }
+}
+
+/* Music divider: a slight, staggered side-to-side sway on each staff line
+   while playing — like a struck string settling — so the staff itself
+   reads as "moving" and not just recolored. Idle, this isn't applied, so
+   the lines stand completely still. */
+@keyframes staff-sway {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2.5px); }
 }
