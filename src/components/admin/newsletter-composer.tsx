@@ -61,7 +61,7 @@ export function NewsletterComposer({ products }: { products: Product[] }) {
                 </p>
               </div>
               {selected.has(p.id) && (
-                <span className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-pop text-xs font-bold text-cream shadow-soft ring-2 ring-cream">
+                <span className="absolute right-6 top-8 flex h-6 w-6 items-center justify-center rounded-full bg-pop text-xs font-bold text-cream shadow-soft ring-2 ring-cream">
                   ✓
                 </span>
               )}

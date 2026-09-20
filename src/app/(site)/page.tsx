@@ -15,12 +15,17 @@ export default async function HomePage() {
   const featured = newArrivals.length ? newArrivals : all.slice(0, 8);
 
   return (
-    <div>
+    <div className="relative">
+      {/* Runs the full height of the page — from the top of the hero down
+          to the bottom of the last section — not just one section. It's an
+          overlay so it doesn't fight the full-bleed section backgrounds
+          below; only shown once there's real margin outside the centered
+          7xl content to sit in, so it never crosses over the page copy. */}
+      <MusicStaffDivider className="absolute inset-y-0 left-[calc(50%-50rem)] z-10 hidden min-[1600px]:flex" />
+
       <Hero />
 
-      <div className="mx-auto flex max-w-7xl gap-4 px-4 py-16 sm:px-6 lg:px-8">
-        <MusicStaffDivider className="hidden sm:flex" />
-
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="min-w-0 flex-1">
           <HomeGridSection
             title="New Arrivals"

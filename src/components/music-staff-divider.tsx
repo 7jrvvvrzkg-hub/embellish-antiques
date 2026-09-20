@@ -24,10 +24,16 @@ import Image from "next/image";
 // to a track exactly needs audio analysis this app doesn't do. If you send
 // timestamps/cue points for the track, those can drive this precisely.
 const NOTE_ASSETS = ["/music/note.png", "/music/note2.png"];
-const CONVEYOR_DURATION = 6.4; // seconds for one note to travel the full belt
-const NOTE_COUNT = 6;
+// The divider now spans the full page height (not just one section), so
+// the belt is much longer — a slower duration keeps the notes gliding
+// instead of rocketing down the line.
+const CONVEYOR_DURATION = 16;
+const NOTE_COUNT = 8;
 const NOTES = Array.from({ length: NOTE_COUNT }, (_, i) => ({
-  left: [34, 58, 46, 62, 38, 52][i],
+  // Tight jitter around the bar's own center (each note is also centered
+  // on `left` via translateX below, not left-edge-anchored) so they stay
+  // riding on the bar instead of drifting off it.
+  left: [46, 54, 50, 58, 44, 52, 48, 56][i],
   asset: NOTE_ASSETS[i % NOTE_ASSETS.length],
   // Evenly spaced starting points around the SAME loop, at the SAME
   // duration below — that's what makes it read as one conveyor belt of
@@ -64,14 +70,15 @@ export function MusicStaffDivider({ className = "" }: { className?: string }) {
   }
 
   return (
-    <div className={`relative flex h-full min-h-[320px] w-24 flex-col items-center ${className}`}>
+    <div className={`flex w-32 flex-col items-center ${className}`}>
       {/* The actual bar asset, tiled the full height of the divider —
           starts at the very top so the clef button sits right on it,
-          rather than floating above a gap. */}
+          rather than floating above a gap. Sized up so it reads as a
+          real, thick bar rather than a hairline. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 bottom-0 z-0 bg-center bg-repeat-y opacity-80"
-        style={{ backgroundImage: "url(/music/bar.png)", backgroundSize: "44px auto" }}
+        className="pointer-events-none absolute inset-x-0 top-0 bottom-0 z-0 bg-center bg-repeat-y"
+        style={{ backgroundImage: "url(/music/bar.png)", backgroundSize: "72px auto" }}
       />
 
       <button
@@ -79,26 +86,28 @@ export function MusicStaffDivider({ className = "" }: { className?: string }) {
         onClick={toggle}
         aria-pressed={playing}
         aria-label={playing ? "Pause background music" : "Play background music"}
-        className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full outline-none transition hover:scale-105 active:scale-95"
+        className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full outline-none transition hover:scale-105 active:scale-95"
       >
         <Image
           src="/music/clef.png"
           alt=""
-          width={80}
-          height={80}
-          className={`h-12 w-12 object-contain drop-shadow-md ${!playing ? "animate-[clef-shimmy_4s_ease-in-out_infinite]" : "rotate-90"}`}
+          width={90}
+          height={90}
+          className={`h-14 w-14 object-contain drop-shadow-md ${!playing ? "animate-[clef-shimmy_4s_ease-in-out_infinite]" : "rotate-90"}`}
         />
       </button>
 
       {/* Notes travel down the bar — same duration, same loop, only their
           start point differs, so they move as one evenly-spaced conveyor
-          rather than drifting past each other at different speeds. */}
+          rather than drifting past each other at different speeds. Each
+          note is centered on its `left` percentage (not left-edge-anchored)
+          so it actually rides the bar instead of drifting off it. */}
       <div className="relative z-[1] w-full flex-1 overflow-hidden">
         {playing &&
           NOTES.map((note, i) => (
             <span
               key={i}
-              className="absolute h-7 w-7"
+              className="absolute h-9 w-9 -translate-x-1/2"
               style={{
                 left: `${note.left}%`,
                 animation: `note-carousel ${CONVEYOR_DURATION}s linear ${note.delay}s infinite`,
