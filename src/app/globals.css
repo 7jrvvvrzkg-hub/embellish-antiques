@@ -130,20 +130,13 @@ h1, h2, h3, h4, .font-display {
   100% { top: 106%; opacity: 0; }
 }
 
-/* Music divider: while playing, the bar lines drift downward along the
-   staff — one full drift covers exactly one bar-line interval so the
-   repeating pattern loops with no visible seam. Idle, this isn't applied
-   at all, so the bar lines just sit still. */
-@keyframes staff-scroll {
-  from { background-position-y: 0; }
-  to { background-position-y: 360px; }
-}
-
-/* Music divider: a slight, staggered side-to-side sway on each staff line
-   while playing — like a struck string settling — so the staff itself
-   reads as "moving" and not just recolored. Idle, this isn't applied, so
-   the lines stand completely still. */
-@keyframes staff-sway {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(2.5px); }
+/* Music divider: while playing, the bar lines pulse gently — a fixed
+   position (never scrolled — a scrolling background-position looks fine
+   live, but a full-page screenshot/capture tool can grab it mid-cycle at
+   the exact phase where every bar line sits in its "gap," making the whole
+   staff read as blank or solid; a pulse can never fully vanish like that).
+   Idle, this isn't applied at all, so the bar lines just sit still. */
+@keyframes staff-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.72; }
 }
