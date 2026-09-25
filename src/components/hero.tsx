@@ -42,7 +42,7 @@ export function Hero() {
         </svg>
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-14 sm:pb-24 sm:pl-44 sm:pr-6 sm:pt-20 lg:pl-44 lg:pr-8">
+      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8">
         <div className="inline-flex items-center gap-2 rounded-full border border-cream/25 bg-cream/10 px-4 py-1.5 text-xs font-medium tracking-wide backdrop-blur">
           <LogoMark className="h-3.5 w-3.5" /> Durham, NC · Shipping nationwide &amp; worldwide
         </div>

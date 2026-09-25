@@ -21,9 +21,6 @@
   --color-gold-soft: #e8d3a0;
   --color-cloud: #ffffff;
   --color-line: #e5d9c3;
-  /* Music divider: bland/muted resting color for the staff + bar lines when
-     nothing's playing — the vibrant --color-pop takes over once it's on. */
-  --color-staff-idle: #968a7a;
 
   --radius-sm: 0.6rem;
   --radius-md: 1rem;
@@ -47,7 +44,6 @@
   --color-gold-soft: var(--color-gold-soft);
   --color-cloud: var(--color-cloud);
   --color-line: var(--color-line);
-  --color-staff-idle: var(--color-staff-idle);
 
   --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
@@ -112,31 +108,3 @@ h1, h2, h3, h4, .font-display {
   100% { opacity: 1; }
 }
 
-/* Music divider: a gentle periodic wiggle on the treble clef, inviting a
-   click before the music has been started. */
-@keyframes clef-shimmy {
-  0%, 82%, 100% { transform: rotate(90deg) scale(1); }
-  88% { transform: rotate(97deg) scale(1.1); }
-  94% { transform: rotate(83deg) scale(1.1); }
-}
-
-/* Music divider: notes travelling down the rotated staff line in a loop,
-   fading in near the top and out near the bottom. `top` is percentage-based
-   against the divider's own height, so it works at any divider length. */
-@keyframes note-carousel {
-  0% { top: -10%; opacity: 0; }
-  8% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { top: 106%; opacity: 0; }
-}
-
-/* Music divider: while playing, the bar lines pulse gently — a fixed
-   position (never scrolled — a scrolling background-position looks fine
-   live, but a full-page screenshot/capture tool can grab it mid-cycle at
-   the exact phase where every bar line sits in its "gap," making the whole
-   staff read as blank or solid; a pulse can never fully vanish like that).
-   Idle, this isn't applied at all, so the bar lines just sit still. */
-@keyframes staff-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.72; }
-}
