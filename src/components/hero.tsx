@@ -24,7 +24,7 @@ export function Hero() {
           <LogoMark className="h-3.5 w-3.5" /> Durham, NC · Shipping nationwide &amp; worldwide
         </div>
 
-        <h1 className="mt-6 max-w-2xl font-display text-4xl italic leading-[1.05] sm:text-6xl">
+        <h1 className="mt-6 max-w-2xl font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
           Beautifully <span className="text-pop">peculiar</span> antiques, found and re-homed.
         </h1>
 

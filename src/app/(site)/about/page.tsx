@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
       <span className="text-xs font-semibold uppercase tracking-widest text-pop-dark">Our story</span>
-      <h1 className="mt-2 font-display text-4xl italic">About Embellish Antiques</h1>
+      <h1 className="mt-2 font-display text-4xl">About Embellish Antiques</h1>
 
       <div className="mt-8 space-y-5 leading-relaxed text-ink-soft">
         <p>

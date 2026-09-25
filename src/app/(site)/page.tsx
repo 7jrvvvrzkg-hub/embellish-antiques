@@ -56,7 +56,7 @@ export default async function HomePage() {
       <section className="bg-cream-soft py-16">
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
           <div>
-            <h2 className="font-display text-3xl italic">A little about us</h2>
+            <h2 className="font-display text-3xl">A little about us</h2>
             <p className="mt-4 max-w-md text-ink-soft">
               Embellish Antiques is a Durham, NC-based dealer specializing in curated,
               one-of-a-kind antique and vintage pieces — from Art Deco barware to
@@ -71,7 +71,7 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="rounded-3xl bg-forest p-8 text-cream">
-            <p className="font-display text-xl italic leading-relaxed">
+            <p className="font-display text-xl leading-relaxed">
               &ldquo;Every piece has already lived a life before it finds you — we just
               help it find the right home next.&rdquo;
             </p>

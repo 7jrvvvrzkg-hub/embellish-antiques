@@ -4,7 +4,7 @@ import { InvadersGame } from "@/components/invaders-game";
 export default function NotFound() {
   return (
     <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-4 py-16 text-center sm:px-6">
-      <span className="font-display text-7xl italic text-pop">404</span>
+      <span className="font-display text-7xl text-pop">404</span>
       <div>
         <h1 className="font-display text-2xl">This piece isn&apos;t here</h1>
         <p className="mt-2 text-ink-soft">

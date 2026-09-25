@@ -272,7 +272,7 @@ export function InvadersGame() {
 
         {status !== "playing" && (
           <div className="absolute inset-2 flex flex-col items-center justify-center gap-3 rounded-[1.75rem] bg-ink/85 text-center text-cream">
-            <p className="font-display text-xl italic">
+            <p className="font-display text-xl">
               {status === "won" ? "You cleared the shop!" : "Lost in the aisles"}
             </p>
             <p className="text-xs text-cream/70">Score: {score}</p>

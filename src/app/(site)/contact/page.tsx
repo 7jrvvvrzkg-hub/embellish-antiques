@@ -17,7 +17,7 @@ export default function ContactPage() {
   return (
     <div className="mx-auto grid max-w-5xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 lg:px-8">
       <div>
-        <h1 className="font-display text-4xl italic">Get in touch</h1>
+        <h1 className="font-display text-4xl">Get in touch</h1>
         <p className="mt-4 text-ink-soft">
           Questions about a piece, local pickup, or a custom sourcing request — we&apos;d love
           to hear from you.
