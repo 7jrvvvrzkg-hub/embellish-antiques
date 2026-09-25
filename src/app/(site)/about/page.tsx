@@ -8,23 +8,37 @@ export default function AboutPage() {
 
       <div className="mt-8 space-y-5 leading-relaxed text-ink-soft">
         <p>
-          Embellish Antiques is a Durham, North Carolina-based dealer specializing in
-          hand-selected antique and vintage pieces — from Art Deco barware and monumental
-          French lighting to one-of-a-kind case goods and garden furniture. Every item is
-          personally sourced and chosen for character, not just condition.
+          Embellish Antiques is owned and operated by Akin Kolawole. Akin got his start in
+          the antiques business working part-time while still in college at an antiques
+          store in Brookline, MA over 25 years ago. Having been bitten by the antiques
+          bug, he decided to get into the business upon graduation.
         </p>
         <p>
-          We ship nationwide and worldwide from our Durham warehouse, and every piece that
-          passes through our doors is one of a kind — once it&apos;s gone, it&apos;s gone.
-          That&apos;s part of the appeal: you&apos;re not buying something mass-produced,
-          you&apos;re giving an object with real history a second life.
+          He opened his store on Charles Street in Boston and operated it there for over
+          15 years. After closing that store, he decided to move down to North Carolina,
+          where he now runs the business.
         </p>
         <p>
-          <em>
-            (This page is a placeholder built to hold real business history, photos, and
-            the owner&apos;s voice — swap this copy for his actual story once he sends it
-            over.)
-          </em>
+          His warehouse in Durham, NC is filled with an extensive array of one-of-a-kind
+          items personally selected and curated by Akin. If you don&apos;t see what
+          you&apos;re searching for, please{" "}
+          <a href="/contact" className="font-medium text-pop-dark underline underline-offset-2 hover:text-pop">
+            contact us
+          </a>{" "}
+          — there&apos;s a good chance we have it and haven&apos;t posted it to the
+          website yet.
+        </p>
+        <p>
+          Follow along with new arrivals on Instagram{" "}
+          <a
+            href="https://www.instagram.com/embellishantiques/"
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-pop-dark underline underline-offset-2 hover:text-pop"
+          >
+            @embellishantiques
+          </a>
+          .
         </p>
       </div>
     </div>

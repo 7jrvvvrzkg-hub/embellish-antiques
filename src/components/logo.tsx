@@ -35,12 +35,21 @@ export function Logo({
   wordmark?: boolean;
 }) {
   return (
-    <span className={`inline-flex items-center gap-2.5 text-ink ${className}`}>
+    // `text-ink` is the default text color, but it's only applied when no
+    // override is passed in. Every caller either passes nothing (wants the
+    // default) or passes a color override (the footer's `text-cream`, so
+    // "Embellish" is visible on the dark background) — having both classes
+    // present at once hits the same same-specificity Tailwind cascade-order
+    // bug fixed in ProductImage: which of two equal-specificity utility
+    // classes wins depends on their order in Tailwind's *generated*
+    // stylesheet, not on their order in this className string, so
+    // `text-cream` wasn't reliably beating the hardcoded `text-ink`.
+    <span className={`inline-flex items-center gap-2.5 ${className || "text-ink"}`}>
       <LogoMark className={markClassName} />
       {wordmark && (
         <span className="leading-none">
           <span className="block font-display text-xl tracking-tight">Embellish</span>
-          <span className="block text-[0.6rem] font-semibold tracking-[0.35em] text-ink-soft">
+          <span className="block text-[0.6rem] font-semibold tracking-[0.35em] text-pop">
             ANTIQUES
           </span>
         </span>

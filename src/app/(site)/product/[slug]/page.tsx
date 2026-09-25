@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ProductImage } from "@/components/product-image";
+import { ProductGallery } from "@/components/product-gallery";
 import { LikeButton } from "@/components/like-button";
 import { AddToBagButton } from "@/components/add-to-bag-button";
 import { SizeReference } from "@/components/size-reference";
@@ -52,20 +52,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
       </nav>
 
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="flex flex-col gap-3">
-          <div className="relative aspect-square overflow-hidden rounded-3xl">
-            <ProductImage images={product.images} alt={product.name} className="absolute inset-0" />
-          </div>
-          {product.images.length > 1 && (
-            <div className="grid grid-cols-4 gap-3">
-              {product.images.slice(1, 5).map((img) => (
-                <div key={img.id} className="relative aspect-square overflow-hidden rounded-xl">
-                  <ProductImage images={[img]} alt={product.name} className="absolute inset-0" />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <ProductGallery images={product.images} alt={product.name} />
 
         <div className="flex flex-col gap-4">
           <span className="text-xs font-semibold uppercase tracking-widest text-pop-dark">

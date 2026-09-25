@@ -37,7 +37,7 @@ export function SiteFooter() {
           </p>
           <div className="mt-4 flex gap-3">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/embellishantiques/"
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"

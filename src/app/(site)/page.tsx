@@ -58,10 +58,10 @@ export default async function HomePage() {
           <div>
             <h2 className="font-display text-3xl">A little about us</h2>
             <p className="mt-4 max-w-md text-ink-soft">
-              Embellish Antiques is a Durham, NC-based dealer specializing in curated,
-              one-of-a-kind antique and vintage pieces — from Art Deco barware to
-              monumental French lighting. Every item is personally sourced and
-              hand-picked before it ever reaches the shop floor.
+              Owned and run by Akin Kolawole, who&apos;s been in the antiques business for
+              over 25 years — first in Boston, now from a warehouse in Durham, NC. Every
+              piece is personally sourced and hand-picked before it ever reaches the shop
+              floor.
             </p>
             <Link
               href="/about"
