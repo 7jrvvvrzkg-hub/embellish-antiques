@@ -1,19 +1,16 @@
-// Placeholder brand mark for Embellish Antiques — deliberately just a plain
-// circle, standing in until the owner's real logo is ready. Swap it for the
-// owner's actual logo preferences and this component is the only place that
-// needs to change — everything else (favicon, admin header, email
-// templates) imports from here.
+// Brand mark: a solid forest-green rounded badge with a bold white "E".
+// Mirrors app/icon.svg (the browser-tab favicon) exactly, so update both
+// together if this ever changes. Used everywhere a small logo mark is
+// needed — header, mobile drawer, footer, admin header, email templates.
 
 export function LogoMark({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      className={className}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2" />
+    <svg viewBox="0 0 48 48" className={className} xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="48" height="48" rx="12" fill="#2F4A3C" />
+      <rect x="14" y="13" width="6" height="22" fill="#FFFFFF" />
+      <rect x="14" y="13" width="20" height="6" fill="#FFFFFF" />
+      <rect x="14" y="21" width="16" height="6" fill="#FFFFFF" />
+      <rect x="14" y="29" width="20" height="6" fill="#FFFFFF" />
     </svg>
   );
 }

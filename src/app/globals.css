@@ -45,7 +45,7 @@
   --color-cloud: var(--color-cloud);
   --color-line: var(--color-line);
 
-  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-display: "Playfair Display Variable", ui-serif, Georgia, serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
   --radius-sm: var(--radius-sm);

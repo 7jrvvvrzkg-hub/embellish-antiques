@@ -46,7 +46,7 @@ const STORE_PATH = path.join(os.tmpdir(), "embellish-antiques-demo-store.json");
 
 function initialStore(): StoreShape {
   return {
-    products: portedProducts.map((p) => ({ ...p, images: [] as ProductImage[] })),
+    products: portedProducts,
     nextProductId: portedProducts.length + 1,
     nextImageId: 1,
     categoryViews: {},

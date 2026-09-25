@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Menu, X, ShoppingBag, ChevronDown, Heart, Phone, Mail } from "lucide-react";
 import { Logo } from "@/components/logo";
@@ -14,6 +15,17 @@ export function SiteHeader({ searchWords }: { searchWords: string[] }) {
   const shopMenuRef = useRef<HTMLDivElement>(null);
   const totalCount = useCart((s) => s.totalCount());
   const openCart = useCart((s) => s.open);
+
+  // The mobile drawer below is `fixed inset-0`, but it used to be rendered
+  // as a normal descendant of <header>, which has `backdrop-blur-md`
+  // (backdrop-filter). Any backdrop-filter/filter/transform ancestor
+  // becomes the containing block for its `position: fixed` descendants —
+  // so the drawer was being boxed into the header's own (much shorter)
+  // height instead of covering the full screen, rendering as a small card
+  // up top rather than a true full-height slide-out panel. Portaling it
+  // straight to <body> clears it of that containing block entirely.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Close the mobile drawer on route changes handled by Link's default
   // behavior; this just prevents a stuck-open drawer on resize to desktop.
@@ -46,6 +58,7 @@ export function SiteHeader({ searchWords }: { searchWords: string[] }) {
   }, [categoriesOpen]);
 
   return (
+    <>
     <header className="sticky top-0 z-40 border-b border-line/70 bg-cream/90 backdrop-blur-md">
       {/* Always-visible contact strip — easier to find than burying it on
           the Contact page, matching how the other shop sites do it */}
@@ -161,75 +174,85 @@ export function SiteHeader({ searchWords }: { searchWords: string[] }) {
       <div className="px-4 pb-3 md:hidden">
         <AnimatedSearchBar words={searchWords} />
       </div>
-
-      {/* Mobile drawer — always mounted so both the open and close states get
-          a real CSS transition instead of just popping in/out */}
-      <div
-        className={`fixed inset-0 z-50 lg:hidden ${mobileOpen ? "" : "pointer-events-none"}`}
-        aria-hidden={!mobileOpen}
-      >
-        <div
-          className={`absolute inset-0 bg-ink/40 transition-opacity duration-300 ${
-            mobileOpen ? "opacity-100" : "opacity-0"
-          }`}
-          onClick={() => setMobileOpen(false)}
-        />
-        <div
-          className={`absolute inset-y-0 left-0 flex w-[85%] max-w-sm flex-col overflow-y-auto rounded-r-3xl bg-cream p-6 shadow-soft transition-transform duration-300 ease-out ${
-            mobileOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <div className="mb-6 flex items-center justify-between">
-            <Logo />
-            <button
-              aria-label="Close menu"
-              className="rounded-full p-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-ink-soft">
-            Shop by category
-          </p>
-          <div className="mb-6 flex flex-col gap-1">
-            {CATEGORY_LIST.map((c) => (
-              <Link
-                key={c.slug}
-                href={`/shop/${c.slug}`}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-xl px-3 py-3 text-base text-ink transition active:bg-cream-soft"
-              >
-                {c.label}
-              </Link>
-            ))}
-            <Link
-              href="/shop/new-arrivals"
-              onClick={() => setMobileOpen(false)}
-              className="rounded-xl px-3 py-3 text-base font-semibold text-pop transition active:bg-cream-soft"
-            >
-              New Arrivals
-            </Link>
-          </div>
-          <div className="flex flex-col gap-1 border-t border-line pt-4">
-            {[
-              ["Your Likes", "/likes"],
-              ["About", "/about"],
-              ["Sold Archive", "/sold-archive"],
-              ["Contact", "/contact"],
-            ].map(([label, href]) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-xl px-3 py-3 text-base text-ink transition active:bg-cream-soft"
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
     </header>
+
+    {/* Mobile drawer — portaled straight to <body> (see the `mounted`
+        comment above for why) and always mounted so both the open and
+        close states get a real CSS transition instead of just popping
+        in/out. Being outside <header> now, `fixed inset-0` here is finally
+        relative to the actual viewport, so it covers the full height of
+        the screen on the side it slides in from, not just the header's
+        own box. */}
+    {mounted &&
+      createPortal(
+        <div
+          className={`fixed inset-0 z-50 lg:hidden ${mobileOpen ? "" : "pointer-events-none"}`}
+          aria-hidden={!mobileOpen}
+        >
+          <div
+            className={`absolute inset-0 bg-ink/40 transition-opacity duration-300 ${
+              mobileOpen ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={() => setMobileOpen(false)}
+          />
+          <div
+            className={`absolute inset-y-0 left-0 flex w-[85%] max-w-sm flex-col overflow-y-auto rounded-r-3xl bg-cream p-6 shadow-soft transition-transform duration-300 ease-out ${
+              mobileOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
+            <div className="mb-6 flex items-center justify-between">
+              <Logo />
+              <button
+                aria-label="Close menu"
+                className="rounded-full p-2"
+                onClick={() => setMobileOpen(false)}
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-ink-soft">
+              Shop by category
+            </p>
+            <div className="mb-6 flex flex-col gap-1">
+              {CATEGORY_LIST.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/shop/${c.slug}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-xl px-3 py-3 text-base text-ink transition active:bg-cream-soft"
+                >
+                  {c.label}
+                </Link>
+              ))}
+              <Link
+                href="/shop/new-arrivals"
+                onClick={() => setMobileOpen(false)}
+                className="rounded-xl px-3 py-3 text-base font-semibold text-pop transition active:bg-cream-soft"
+              >
+                New Arrivals
+              </Link>
+            </div>
+            <div className="flex flex-col gap-1 border-t border-line pt-4">
+              {[
+                ["Your Likes", "/likes"],
+                ["About", "/about"],
+                ["Sold Archive", "/sold-archive"],
+                ["Contact", "/contact"],
+              ].map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-xl px-3 py-3 text-base text-ink transition active:bg-cream-soft"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+    </>
   );
 }

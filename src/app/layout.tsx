@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 // Self-hosted via npm (@fontsource-variable) rather than next/font/google —
 // no runtime dependency on Google's font CDN (nice for privacy/consistency,
 // and means the build never depends on reaching fonts.googleapis.com).
-import "@fontsource-variable/fraunces/wght.css";
-import "@fontsource-variable/fraunces/wght-italic.css";
+import "@fontsource-variable/playfair-display/wght.css";
+import "@fontsource-variable/playfair-display/wght-italic.css";
 import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 

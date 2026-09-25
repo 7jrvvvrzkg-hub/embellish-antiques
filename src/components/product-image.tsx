@@ -40,9 +40,16 @@ export function ProductImage({
   const secondary = images[1] ?? images[0];
   const showing = hovering ? secondary : primary;
 
+  // Every call site passes its own positioning (almost always
+  // "absolute inset-0") via `className`. That used to collide with a
+  // hardcoded `relative` here — same-specificity Tailwind utilities, so
+  // which one won depended on stylesheet order, not on this string, and
+  // `relative` was winning, collapsing this wrapper to 0 height and
+  // breaking the hover-to-second-photo swap below. No caller relies on
+  // the old `relative` default, so it's dropped rather than reconciled.
   return (
     <div
-      className={`relative overflow-hidden bg-cream-soft ${className}`}
+      className={`overflow-hidden bg-cream-soft ${className}`}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
